@@ -245,6 +245,7 @@ static Class imageManagerClass = nil;
     [self.contentView addSubview:self.countLabel];
     [self.contentView addSubview:self.pageControl];
     [self.contentView addSubview:self.saveBtn];
+    [self.contentView addSubview:self.forwardBtn];
     
     if (self.hidesCountLabel) {
         self.countLabel.hidden = YES;
@@ -441,10 +442,12 @@ static Class imageManagerClass = nil;
         if (self.isLandscape) {
             pointY = self.contentView.bounds.size.height - 20;
         }else {
-            pointY = self.contentView.bounds.size.height - 10 - (self.isAdaptiveSafeArea ? 0 : kSafeBottomSpace);
+            pointY = self.contentView.bounds.size.height - 20 - (self.isAdaptiveSafeArea ? 0 : kSafeBottomSpace);
         }
         self.pageControl.center = CGPointMake(centerX, pointY);
-        self.saveBtn.center = CGPointMake(self.contentView.bounds.size.width - 50, pointY);
+        self.saveBtn.center = CGPointMake(self.contentView.bounds.size.width - 100, pointY);
+        self.forwardBtn.center = CGPointMake(self.contentView.bounds.size.width - 50, pointY);
+        
     }
     
     if ([self.delegate respondsToSelector:@selector(photoBrowser:willLayoutSubViews:)]) {
@@ -635,6 +638,12 @@ static Class imageManagerClass = nil;
 - (void)saveBtnClick:(UIButton *)btn {
     if ([self.delegate respondsToSelector:@selector(photoBrowser:onSaveBtnClick:image:)]) {
         [self.delegate photoBrowser:self onSaveBtnClick:self.currentIndex image:self.curPhotoView.imageView.image];
+    }
+}
+
+- (void)forwardBtnClick:(UIButton *)btn {
+    if ([self.delegate respondsToSelector:@selector(photoBrowser:onForwordBtnClick:)]) {
+        [self.delegate photoBrowser:self onForwordBtnClick:self.currentIndex];
     }
 }
 
@@ -1422,19 +1431,26 @@ static Class imageManagerClass = nil;
 - (UIButton *)saveBtn {
     if (!_saveBtn) {
         UIButton *saveBtn = [UIButton new];
-        saveBtn.bounds = CGRectMake(0, 0, 50, 30);
-        [saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-        [saveBtn setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
-        saveBtn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
-        saveBtn.layer.cornerRadius = 5;
-        saveBtn.layer.masksToBounds = YES;
-        saveBtn.layer.borderColor = UIColor.whiteColor.CGColor;
-        saveBtn.layer.borderWidth = 1;
+        saveBtn.bounds = CGRectMake(0, 0, 26, 26);
+        [saveBtn setImage:GKPhotoBrowserImage(@"save_btn") forState:UIControlStateNormal];
+        [saveBtn setAdjustsImageWhenHighlighted:NO];
         saveBtn.hidden = YES;
         [saveBtn addTarget:self action:@selector(saveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         _saveBtn = saveBtn;
     }
     return _saveBtn;
+}
+
+- (UIButton *)forwardBtn {
+    if (!_forwardBtn) {
+        UIButton *forwardBtn = [UIButton new];
+        forwardBtn.bounds = CGRectMake(0, 0, 26, 26);
+        [forwardBtn setImage:GKPhotoBrowserImage(@"forward_btn") forState:UIControlStateNormal];
+        [forwardBtn setAdjustsImageWhenHighlighted:NO];
+        [forwardBtn addTarget:self action:@selector(forwardBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        _forwardBtn = forwardBtn;
+    }
+    return _forwardBtn;
 }
 
 @end

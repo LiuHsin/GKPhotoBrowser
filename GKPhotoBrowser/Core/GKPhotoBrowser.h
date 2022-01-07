@@ -37,6 +37,9 @@ typedef void(^layoutBlock)(GKPhotoBrowser *photoBrowser, CGRect superFrame);
 // 保存按钮点击事件
 - (void)photoBrowser:(GKPhotoBrowser *)browser onSaveBtnClick:(NSInteger)index image:(UIImage *)image;
 
+//转发按钮点击事件
+- (void)photoBrowser:(GKPhotoBrowser *)browser onForwordBtnClick:(NSInteger)index;
+
 // 上下滑动消失
 // 开始滑动时
 - (void)photoBrowser:(GKPhotoBrowser *)browser panBeginWithIndex:(NSInteger)index;
@@ -141,6 +144,9 @@ typedef void(^layoutBlock)(GKPhotoBrowser *photoBrowser, CGRect superFrame);
 
 /// 保存按钮，默认隐藏
 @property (nonatomic, strong) UIButton *saveBtn;
+
+///转发按钮
+@property (nonatomic, strong) UIButton *forwardBtn;
 
 /// 加载失败时显示的文字或图片
 @property (nonatomic, copy) NSString    *failureText;
